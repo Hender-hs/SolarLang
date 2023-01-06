@@ -10,6 +10,8 @@ namespace SolarLang::LanguageExpressions {
     public:
         std::string className;
         std::string keyword;
+
+        bool isDeclarationName(std::string);
     };
 
     class FunctionDeclaration : public LangExp
@@ -43,11 +45,11 @@ namespace SolarLang::LanguageExpressions {
     {
      public:
         std::string className = "VaribleDeclaration";
+        std::string keyword = "var";
         std::string keywords = "";
 
         const std::string rules[6] = {  "<type>",
-                                        "<empty_space>",
-                                        "<varible_name>",
+                                        "<name>",
                                         "<assign_operator>",
                                         "<value>",
                                         "<semicolon>"
@@ -55,6 +57,7 @@ namespace SolarLang::LanguageExpressions {
 
         static std::string getClassName() { return "VaribleDeclaration"; };
         static std::string* getKeyword() { 
+            // TODO: REMOVE THIS RETURN FROM THE HEAṔ MEMORY
             return new std::string[5] { 
                 "void",
                 "int", 
@@ -63,6 +66,21 @@ namespace SolarLang::LanguageExpressions {
                 "object" 
             }; 
         };
+
+        
+        bool isVarible(std::string token)
+        {
+            int typeArrLength = 5;
+
+            for (int i = 0; i < typeArrLength; i++)
+            {
+                if (getKeyword()[i] == token)
+                    return 1;
+            }
+            return 0;
+        };
+
+        bool isVaribleType(std::string token) { return isVarible(token); };
     };
 
 

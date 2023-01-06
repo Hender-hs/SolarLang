@@ -122,7 +122,7 @@ std::vector<std::string> SolarLang::Parser::Core::Executor()
 
     std::vector<std::string> allInputWords;
 
-    std::cout <<  bufferSize << std::endl;
+    std::cout << "Fille buffer size: " <<  bufferSize << std::endl;
 
     for (int i = 0; i < bufferSize; i++)
     {
@@ -155,10 +155,12 @@ std::vector<std::string> SolarLang::Parser::Core::Executor()
         // SolarLang::Parser::Token::lookForKeywords(word);
     }
 
+#ifdef PRINT_SCRIPT
     for (int i = 0; i < int(allInputWords.size()); i++)
     {
         std::cout << allInputWords[i] << std::endl;
     }
+#endif
 
     return allInputWords;
 };

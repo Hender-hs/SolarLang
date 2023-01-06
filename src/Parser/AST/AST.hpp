@@ -15,14 +15,11 @@ namespace SolarLang::Parser {
     using namespace LanguageExpressions;
     using namespace Tree;
 
+    typedef std::vector<std::string> VectorString;
+    typedef std::vector<Tree::Parent> VectorASTNode;
 
     class AST {
     public:
-
-        void GenerateAST();
-
-        std::vector<std::string> readWords();
-        void identifyAndProcessKeywords(std::string);
 
         static FunctionDeclaration funcDecl()  { return FunctionDeclaration(); };
         static VaribleDeclaration varDecl()    { return VaribleDeclaration(); };
@@ -33,18 +30,36 @@ namespace SolarLang::Parser {
         static IfStatement ifStatemnt()        { return IfStatement(); };
         static ReturnStatement returnStatemnt(){ return ReturnStatement(); };
 
+
+        void GenerateAST();
+        VectorString readWords();
+        void identifyKeyword();
+        void processCode();
+
+        void errExpectedToken();
+
+
+        VectorString allProgramCode;
         // AST data
-        std::vector<Tree::Parent> astData;
+        VectorASTNode astNode;
 
     private:
+        std::string nextTokenExpected;
+
         void _funcDeclRule();
+
         void _varDeclRule();
+        Tree::Varible var;
+
         void _constDeclRule();
         void _refExpreRule();
         void _labelExpreRule();
         void _whileStatmntRule();
         void _ifStatmntRule();
         void _returnStatmntRule();
+
+        std::string _currWord;
+        std::string _rulingState;
     };
 
 };

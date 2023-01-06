@@ -9,6 +9,7 @@ namespace SolarLang::Parser::Tree {
 
     class LangTypes : public Parent
     {
+    public:
         std::string _void = "void";
         std::string _int = "int";
         std::string _string = "string";
@@ -18,49 +19,57 @@ namespace SolarLang::Parser::Tree {
 
     class BoolCondition : public Parent
     {
+    public:
         std::vector<std::string> boolExpressions;         
     };
 
     class FuncReturn : public Parent
     {
+    public:
         std::string value;
     };
 
     class Varible : public Parent
     {
-        LangTypes type;
+    public:
+        std::string type;
         std::string value;
         std::string name;
     };
 
     class Constant : public Parent
     {
-        LangTypes type;
+    public:
+        std::string type;
         std::string value;
         std::string name;
     };
 
     class If : public Parent
     {
+    public:
         std::vector<BoolCondition> condition;
         //Body body;
     };
 
     class While : public Parent
     {
+    public:
         std::vector<BoolCondition> condition;
         //Body body;
     };
 
     class Params : public Parent
     {
-        LangTypes type;
+    public:
+        std::string type;
         std::string value;
         std::string name;
     };
 
     class Body : public Parent
     {
+    public:
         std::vector<Varible> varibles;
         std::vector<Constant> constants;
         std::vector<If> ifs;
@@ -69,7 +78,8 @@ namespace SolarLang::Parser::Tree {
 
     class Function : public Parent
     {
-        LangTypes type;
+    public:
+        std::string type;
         std::vector<Params> params;
         std::vector<Body> body;
         std::vector<FuncReturn> _return;
