@@ -1,0 +1,4 @@
+Parser      -> The Parser reads the code files then verify syntax and separates in blocks each instruction.
+AST         -> Creates an AST representation of the code.
+Bytecode    -> It generates the bytecode of each instruction.
+Executor    -> It executes those bytecodes instructions.

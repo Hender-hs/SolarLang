@@ -1,0 +1,56 @@
+Body
+    itsClass[] Varible?
+    itsClass[] Constant?
+    itsClass[] If Statement?
+    itsClass[] While Statement?
+
+
+Params
+    string type
+    string value
+    string name
+
+
+
+Condition
+    string value
+
+
+
+Return
+    string value
+
+
+
+Varibles
+    string type
+    string value
+    string name
+
+
+
+Constants
+    string type
+    string value
+    string name
+
+
+
+If Statement
+    itsClass condition
+    itsClass body
+
+
+
+While Statement
+    itsClass condition
+    itsClass body
+
+
+
+Function
+    string type
+    Params[] params
+    itsClass body
+    itsClass return
+

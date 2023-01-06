@@ -1,0 +1,7 @@
+Pointers
+Self-Documented
+Labels
+Json Object Representation (Like in JavaScript, for easy debugg)
+Statically Typed
+Interpreted Language
+

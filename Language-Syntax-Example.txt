@@ -1,0 +1,27 @@
+Func<void> multiply(int integer, string _string) {
+
+    void undefined = undef;
+
+    int multiplication = 2;
+
+    bool isCorrect = true;
+
+    object matrix = new Annonimous();
+
+    string simpleText = "";
+
+    string complText = `
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+        when an unknown printer took a galley of type and scrambled it to make a type 
+        specimen book.
+    `; 
+
+    Func<int> Function_i() => 21;
+
+    Func<string> Function_s() {
+        return "A String";
+    }
+
+    return integer * multiplication;
+};
