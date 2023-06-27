@@ -2,9 +2,9 @@
 
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include "./LANGEXPR/LanguageExpressions.hpp"
+#include "./LangExp/LanguageExpressions.hpp"
 #include "./FS/FileStream.hpp"
+#include "../VectorSerial.hpp"
 
 
 namespace SolarLang::Parser {
@@ -12,7 +12,7 @@ namespace SolarLang::Parser {
     class Core
     {
     public:
-        std::vector<std::string> Executor();
+        Vector<std::string> Executor();
     };
 
     class ProcessChars

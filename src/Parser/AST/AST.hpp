@@ -1,8 +1,20 @@
 #pragma once
+
 #include <vector>
 #include <iostream>
-#include "../LANGEXPR/LanguageExpressions.hpp"
+#if 0
+#include "../LangExp/Function.hpp"
+#include "../LangExp/Varible.hpp"
+#include "../LangExp/Constant.hpp"
+#include "../LangExp/If.hpp"
+#include "../LangExp/While.hpp"
+#include "../LangExp/Label.hpp"
+#include "../LangExp/Reference.hpp"
+#include "../LangExp/Return.hpp"
+#endif
+#include "../LangExp/LanguageExpressions.hpp"
 #include "./Tree.hpp"
+#include "../../VectorSerial.hpp"
 
 
 // Creating the AST
@@ -12,11 +24,9 @@
 // 3. 
 
 namespace SolarLang::Parser {
+
     using namespace LanguageExpressions;
     using namespace Tree;
-
-    typedef std::vector<std::string> VectorString;
-    typedef std::vector<Tree::Parent> VectorASTNode;
 
     class AST {
     public:
@@ -30,18 +40,19 @@ namespace SolarLang::Parser {
         static IfStatement ifStatemnt()        { return IfStatement(); };
         static ReturnStatement returnStatemnt(){ return ReturnStatement(); };
 
+        void processTokens();
 
         void GenerateAST();
-        VectorString readWords();
-        void identifyKeyword();
-        void processCode();
+        Vector<std::string> readWords();
+
+        // TODO: implement this function
+        void throwErr(std::string err, std::string err2, std::string err3);
 
         void errExpectedToken();
 
-
-        VectorString allProgramCode;
+        Vector<std::string> tokens;
         // AST data
-        VectorASTNode astNode;
+        Vector<Tree::Parent> astNode;
 
     private:
         std::string nextTokenExpected;
@@ -49,7 +60,6 @@ namespace SolarLang::Parser {
         void _funcDeclRule();
 
         void _varDeclRule();
-        Tree::Varible var;
 
         void _constDeclRule();
         void _refExpreRule();
@@ -58,8 +68,6 @@ namespace SolarLang::Parser {
         void _ifStatmntRule();
         void _returnStatmntRule();
 
-        std::string _currWord;
-        std::string _rulingState;
     };
 
 };

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Parser.hpp"
-#include <vector>
+#include "../VectorSerial.hpp" 
 //#include <array>
 
 namespace SolarLang { 
@@ -96,7 +96,7 @@ std::string SolarLang::Parser::ProcessChars::lookForKeywords(std::string word)
 
 
 
-std::vector<std::string> SolarLang::Parser::Core::Executor()
+SolarLang::Vector<std::string> SolarLang::Parser::Core::Executor()
 {
     // This file has to be in the Heap, it can be so large to store in the stack
     FileStream::Reader* rd = new FileStream::Reader("../../script-example.sl");
@@ -120,7 +120,7 @@ std::vector<std::string> SolarLang::Parser::Core::Executor()
     //struct SolarLang::CharsCode charsCode;
     std::string word;
 
-    std::vector<std::string> allInputWords;
+    SolarLang::Vector<std::string> allInputWords;
 
     std::cout << "Fille buffer size: " <<  bufferSize << std::endl;
 

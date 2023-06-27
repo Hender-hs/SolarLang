@@ -1,5 +1,5 @@
 #include <iostream>
-#include "LanguageExpressions.hpp"
+#include "./Expression.hpp"
 
 using namespace SolarLang::LanguageExpressions;
 
@@ -18,3 +18,29 @@ bool LangExp::isDeclarationName(std::string token)
     }
     return 1;
 };
+
+std::string* LangExp::getTypes() {
+    // TODO: REMOVE THIS RETURN FROM THE HEAP MEMORY
+    return new std::string[] { 
+        "void",
+        "int", 
+        "string", 
+        "bool", 
+        "object" 
+    };
+};
+
+
+bool LangExp::isType(std::string token)
+{
+    int typeArrLength = 5;
+
+    for (int i = 0; i < typeArrLength; i++)
+    {
+        if (getTypes()[i] == token)
+            return 1;
+    }
+    return 0;
+};
+
+

@@ -1,1 +1,5 @@
-int num = 1;
+func main(): int {
+
+    int num1 = 1;
+
+};

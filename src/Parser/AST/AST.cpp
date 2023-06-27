@@ -2,81 +2,46 @@
 #include <iostream>
 #include "./AST.hpp"
 #include "../Parser.hpp"
+#include "../../VectorSerial.hpp"
 
 using namespace SolarLang::Parser;
 
+// TODO: REFACT THE WHOLE CODE. ALL OF THOSE IFs COULD BE A FUNCTION, NOT AN "ELSE IF"
+// INSTEAD OF USING A LOOP, USE A STEP OR NEXT FUNCTION TO INTERATE THROUGH ALL THE TOKENS
 
 void AST::_funcDeclRule()
-{
-    return;
+{   
+    // init "func" key
+    // 1. name
+    // 2. open parenphases params
+    // 3. params
+    // 4. close parenphases params
+    // 5. colon
+    // 6. type
+    // 7. open curly brackets
+    // 8. body
+    // 9. return
+    // 10. close curly brackets
+    // 11. 
+
+    FunctionDeclaration funcDeclInstance = FunctionDeclaration();
+
+    funcDeclInstance.stageFuncName(&tokens);
+    funcDeclInstance.stageParams(&tokens);
+    funcDeclInstance.stageFuncType(&tokens);
+    funcDeclInstance.stageFuncBody(&tokens, &astNode);
+    funcDeclInstance.stageFuncReturn(&tokens);
 };
 
 void AST::_varDeclRule()
 {
-    VaribleDeclaration varDeclarationInstance = varDecl();
-    if (varDeclarationInstance.isVaribleType(_currWord)) 
-    {
-        // printf("entered 1");
 
-        var.type = _currWord;
-        nextTokenExpected = "<name>";
-    }
-
-    else if (nextTokenExpected == "<name>") 
-    {
-        // printf("entered 2");
-
-        if (varDeclarationInstance.isDeclarationName(_currWord))
-            throw std::runtime_error("Characters not allowed in this varible name assignment");
-
-        var.name = _currWord;
-        nextTokenExpected = "<assign_operator>";
-    }
-
-    else if (nextTokenExpected == "<assign_operator>")
-    {
-        // printf("entered 3");
-
-        if (_currWord != "=")
-        {
-            std::string err = "Expected '=' (assign operator) in varible declaration";
-            std::string mistake = "\n Got: ";
-            throw std::runtime_error(err + mistake + _currWord);
-        }
-
-        nextTokenExpected = "<value>";
-    }
-
-    else if (nextTokenExpected == "<value>") 
-    {
-        // printf("entered 4");
-        
-        // TODO: change to verify the type value and its characters.
-        if (varDeclarationInstance.isDeclarationName(_currWord))
-            throw std::runtime_error("Characters not allowed in this value assignment");
-
-        var.value = _currWord;
-        nextTokenExpected = "<semicolon>";
-    }
-
-    else if (nextTokenExpected == "<semicolon>") 
-    {
-        // printf("entered 5");
-
-        if (_currWord != ";")
-            throw std::runtime_error("Expected ';' (semicolon) in varible declaration");
-
-        astNode.push_back(var);
-
-        // reseting states
-        var = Varible();
-        nextTokenExpected = "";
-
-        return;
-    }
-
-    if (nextTokenExpected.empty())
-        throw std::runtime_error("Varible declaration error");
+    VaribleDeclaration varDeclInstance = VaribleDeclaration();
+    
+    varDeclInstance.stageVarName(&tokens);
+    varDeclInstance.stageVarAssignment(&tokens);
+    varDeclInstance.stageVarValue(&tokens);
+    varDeclInstance.stageVarEndDeclaration(&tokens, &astNode);
 
 };
 
@@ -111,91 +76,48 @@ void AST::_returnStatmntRule()
 };
 
 
-void AST::identifyKeyword()
+void AST::processTokens()
 {
-    if (_currWord == funcDecl().keyword)
+    std::string token = tokens.getValue();
+
+    if (token == funcDecl().keyword)
     { 
-        _rulingState = _currWord;
+        _funcDeclRule();
     }
 
-    else if (varDecl().isVarible(_currWord))
+    else if (varDecl().isVarible(token))
     {
-        _rulingState = "var";
+        _varDeclRule();
     }
 
-    else if (_currWord == constDecl().keyword)
+    else if (token == constDecl().keyword)
     {
-        _rulingState = _currWord;
+        _constDeclRule();
     }
 
-    else if (_currWord == refExpr().keyword)
+    else if (token == refExpr().keyword)
     {
-        _rulingState = _currWord;
+        _refExpreRule();
     }
 
-    else if (_currWord == labelExpr().keyword)
+    else if (token == labelExpr().keyword)
     {
-        _rulingState = _currWord;
+        _labelExpreRule();
     }
 
-    else if (_currWord == whileStatemnt().keyword)
+    else if (token == whileStatemnt().keyword)
     {
-        _rulingState = _currWord;
+        _whileStatmntRule();
     }
 
-    else if (_currWord == ifStatemnt().keyword)
+    else if (token == ifStatemnt().keyword)
     {
-        _rulingState = _currWord;
+        _ifStatmntRule();
     }
 
-    else if (_currWord == returnStatemnt().keyword)
+    else if (token == returnStatemnt().keyword)
     {
-        _rulingState = _currWord;
-    }
-};
-
-
-
-void AST::processCode()
-{
-    if (_rulingState == funcDecl().keyword)
-    { 
-        AST::_funcDeclRule();
-    }
-
-    else if (_rulingState == varDecl().keyword)
-    {
-        AST::_varDeclRule();
-    }
-
-    else if (_rulingState == constDecl().keyword)
-    {
-        AST::_constDeclRule();
-    }
-
-    else if (_rulingState == refExpr().keyword)
-    {
-        AST::_refExpreRule();
-    }
-
-    else if (_rulingState == labelExpr().keyword)
-    {
-        AST::_labelExpreRule();
-    }
-
-    else if (_rulingState == whileStatemnt().keyword)
-    {
-        AST::_whileStatmntRule();
-    }
-
-    else if (_rulingState == ifStatemnt().keyword)
-    {
-        AST::_ifStatmntRule();
-    }
-
-    else if (_rulingState == returnStatemnt().keyword)
-    {
-        AST::_returnStatmntRule();
+        _returnStatmntRule();
     }
 };
 
@@ -216,11 +138,14 @@ void AST::GenerateAST()
     try {
 
         SolarLang::Parser::Core c;
-        allProgramCode = c.Executor();
+        tokens = c.Executor();
 
-        for (std::string word : allProgramCode)
+        processTokens();
+
+#if 0
+        for (std::string token : tokens)
         {
-            _currWord = word;
+            _currToken = token;
 
             if (_rulingState.empty())
             {
@@ -230,6 +155,7 @@ void AST::GenerateAST()
             processCode();
         }
         errExpectedToken();
+#endif
 
     }
     catch (const std::exception& err)

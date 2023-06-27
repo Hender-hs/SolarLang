@@ -1,5 +1,7 @@
+#pragma once
+
 #include <iostream>
-#include <vector>
+#include "../../VectorSerial.hpp"
 
 
 namespace SolarLang::Parser::Tree {
@@ -20,7 +22,7 @@ namespace SolarLang::Parser::Tree {
     class BoolCondition : public Parent
     {
     public:
-        std::vector<std::string> boolExpressions;         
+        Vector<std::string> boolExpressions;         
     };
 
     class FuncReturn : public Parent
@@ -48,14 +50,14 @@ namespace SolarLang::Parser::Tree {
     class If : public Parent
     {
     public:
-        std::vector<BoolCondition> condition;
+        Vector<BoolCondition> condition;
         //Body body;
     };
 
     class While : public Parent
     {
     public:
-        std::vector<BoolCondition> condition;
+        Vector<BoolCondition> condition;
         //Body body;
     };
 
@@ -70,18 +72,19 @@ namespace SolarLang::Parser::Tree {
     class Body : public Parent
     {
     public:
-        std::vector<Varible> varibles;
-        std::vector<Constant> constants;
-        std::vector<If> ifs;
-        std::vector<While> whiles;
+        Vector<Varible> varibles;
+        Vector<Constant> constants;
+        Vector<If> ifs;
+        Vector<While> whiles;
     };
 
     class Function : public Parent
     {
     public:
+        std::string name;
+        Vector<Params> params;
         std::string type;
-        std::vector<Params> params;
-        std::vector<Body> body;
-        std::vector<FuncReturn> _return;
+        Vector<Body> body;
+        Vector<FuncReturn> _return;
     };
 };
