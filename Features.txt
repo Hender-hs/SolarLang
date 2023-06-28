@@ -5,3 +5,12 @@ Json Object Representation (Like in JavaScript, for easy debugg)
 Statically Typed
 Interpreted Language
 
+Notation varibles (varibles that doesn't store any value on memory, it will on serve as a notition - improvement of performance).
+Example:
+    string :firstName = "Alan";
+    string :secondName = "Juice";
+    string fullName = :firstName + :secondName;
+
+It will work as notation. 
+Reasons: In order to create a clean code, sometimes we need to declare more varibles in our code, thus loosing performance;
+         This feature come in to solve this problem.
